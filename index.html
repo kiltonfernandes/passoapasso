@@ -2,7 +2,6 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Passo a Passo · Construtor de fluxos</title>
-<script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs"></script>
 <style>
 :root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:#18271f;background:#f3f6f3;--ink:#18271f;--muted:#758279;--line:#e3e9e4;--green:#187653;--mint:#eaf5ee;--white:#fff}*{box-sizing:border-box}html,body{height:100%;margin:0}body{overflow:hidden;display:flex;flex-direction:column}header{height:62px;flex:none;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 22px}.brand{font-weight:730;letter-spacing:-.03em;display:flex;align-items:center;gap:10px}.logo{height:31px;width:31px;border-radius:10px;background:var(--mint);color:var(--green);display:grid;place-items:center;font-size:17px}.headright{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px}.orientation{display:flex;background:#f0f3f0;padding:3px;border-radius:9px}.orientation button{border:0;background:transparent;padding:6px 10px;color:#6c7a71;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer}.orientation button.on{background:#fff;color:var(--green);box-shadow:0 1px 3px #1b2b2018}main{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(390px,42%);gap:14px;padding:14px}.left,.right{min-height:0;display:flex;flex-direction:column;gap:14px}.panel{background:var(--white);border:1px solid var(--line);border-radius:14px;box-shadow:0 8px 30px #20362909;overflow:hidden}.diagram{flex:1;min-height:0;display:flex;flex-direction:column}.bar{height:47px;flex:none;padding:0 15px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #edf1ed}.title{font-size:12px;font-weight:720}.badge{font-size:10px;color:var(--green);background:var(--mint);padding:5px 8px;border-radius:20px}.canvas{flex:1;min-height:0;overflow:auto;display:grid;place-items:center;padding:15px}.canvas svg{max-width:100%;height:auto}.empty{max-width:340px;text-align:center;color:#8a968e;font-size:13px;line-height:1.65}.code{height:45%;min-height:180px;display:flex;flex-direction:column}.code pre{margin:0;padding:13px 16px;overflow:auto;flex:1;background:#fbfcfb;color:#30483a;font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre}.chat{flex:1;min-height:260px;display:flex;flex-direction:column}.chatlog{flex:1;min-height:0;overflow:auto;padding:15px;display:flex;flex-direction:column;gap:12px}.msg{max-width:94%;font-size:12px;line-height:1.55;padding:10px 12px;border-radius:12px;white-space:pre-wrap}.bot{align-self:flex-start;background:#f1f5f2;color:#33473a;border-top-left-radius:4px}.you{align-self:flex-end;background:#e6f3eb;color:#20573c;border-top-right-radius:4px}.system{align-self:center;color:#9a6b29;background:#fff6e5;font-size:11px}.prompt{font-weight:700}.quick{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.quick button{border:1px solid #dce7df;background:#fff;color:#286347;border-radius:8px;padding:7px 10px;font:650 11px inherit;cursor:pointer}.quick button:hover{background:var(--mint);border-color:#b8d8c4}.composer{border-top:1px solid #edf1ed;padding:11px;display:flex;gap:8px}.composer input{min-width:0;flex:1;border:1px solid #dfe6e0;border-radius:10px;padding:11px 12px;font:13px inherit;outline:none}.composer input:focus{border-color:#77ae8d;box-shadow:0 0 0 3px #e8f4ec}.send{border:0;border-radius:10px;padding:0 15px;background:var(--green);color:#fff;font-size:12px;font-weight:700;cursor:pointer}.send:hover{background:#126243}.footnote{font-size:10px;color:#8b968e;padding:0 14px 10px}.node-chip{font:10px ui-monospace,monospace;background:#fff;border:1px solid #dfe6e0;padding:2px 5px;border-radius:4px;color:#4d6254}@media(max-width:800px){body{overflow:auto}main{grid-template-columns:1fr;grid-template-rows:minmax(340px,55vh) auto}.right{min-height:660px}.code{height:260px;flex:none}.chat{min-height:370px}header{padding:0 13px}.headright>span{display:none}}
 /* acabamento visual */
@@ -22,33 +21,189 @@ main{gap:16px;padding:16px 18px 18px}.left,.right{gap:16px}.panel{border-color:#
 .io-button{position:relative;border:1px solid #dfe7e1;border-radius:9px;padding:8px 12px;background:#fff;color:#315342;font:650 11px Inter,system-ui,sans-serif;cursor:pointer;transition:.15s}.io-button:hover{background:#f2f8f4;border-color:#b8d4c1;transform:translateY(-1px)}.io-button.primary{background:#176b4b;color:#fff;border-color:#176b4b;box-shadow:0 3px 8px #176b4b20}.io-button.primary:hover{background:#125d40}.export-wrap{position:relative}.export-menu{position:absolute;z-index:20;right:0;top:calc(100% + 9px);width:222px;padding:7px;background:#fff;border:1px solid #e4eae5;border-radius:13px;box-shadow:0 16px 42px #1c33251e}.export-menu[hidden]{display:none}.menu-title{padding:8px 10px 7px;color:#87938b;font-size:10px;font-weight:750;letter-spacing:.08em;text-transform:uppercase}.export-menu button{width:100%;display:flex;justify-content:space-between;align-items:center;border:0;border-radius:8px;background:transparent;padding:8px 10px;color:#294535;font:650 11px Inter,system-ui,sans-serif;text-align:left;cursor:pointer}.export-menu button:hover{background:#f0f6f2}.export-menu small{color:#89958d;font-size:10px;font-weight:450}.menu-rule{height:1px;background:#edf0ed;margin:5px 4px}.chat-tools{display:flex;align-items:center;gap:6px}.chat-tools>span{margin-right:4px}.history-btn{width:27px;height:27px;border:1px solid transparent;background:transparent;border-radius:8px;color:#587262;font:20px/1 Inter,system-ui,sans-serif;cursor:pointer}.history-btn:hover:not(:disabled){background:#edf5ef;border-color:#dfebe2;color:#176b4b}.history-btn:disabled{opacity:.32;cursor:default}
 @media(max-width:800px){.io-button{padding:7px 9px;font-size:10px}.export-menu{right:-34px}.chat-tools>span{display:none}}@media(max-width:480px){header{padding:0 9px}.brand{gap:6px;font-size:12px}.brand>span:last-child{display:none}.headright{gap:5px}.io-button{padding:7px;font-size:10px}.orientation button{padding:6px 8px}}
 .process-meta{flex:none;margin:13px 20px 0;padding:11px 14px;border:1px solid #e4eee7;border-radius:11px;background:linear-gradient(105deg,#f2f8f4,#fbfdfb);color:#526b5b;font-size:11px;line-height:1.6}.process-meta[hidden]{display:none}.process-meta strong{color:#1e4a32;font-size:12px}.process-meta span{display:block;color:#78877e;margin-top:2px}
+button:focus-visible,summary:focus-visible{outline:2px solid #388b66;outline-offset:2px}
+.chat{min-height:340px}.code{height:35%;min-height:150px}.chatlog .msg{flex:none;overflow-wrap:anywhere}
+.interview-nav{padding:9px 17px;border-bottom:1px solid #edf0ed;background:#f8fbf9;color:#345643;font-size:12px;flex:none}
+.interview-nav p{margin:0 0 4px;font-weight:650;overflow-wrap:anywhere}
+.interview-nav summary{cursor:pointer;padding:4px}
+.interview-nav ul{list-style:none;margin:2px 0 3px;padding:0 0 0 8px;overflow-wrap:anywhere}
+.interview-nav ul ul{border-left:1px solid #d6e5dc;margin-left:8px}
+#outlineTree{max-height:130px;overflow:auto}
+.outline-item{padding:3px 4px}.interview-nav [aria-current]{color:#10583b;background:#e5f3eb;border-radius:6px;font-weight:700}
+.outline-status{color:#5c7064;font-size:10px;margin-left:7px}
+.quick{max-height:160px;overflow:auto;padding:2px}.quick button{font-weight:650}.quick button[data-answer="__link"]{border-style:dashed}
+@media(max-width:800px),(max-height:650px){body{overflow:auto}main{flex:none;grid-template-columns:minmax(0,1fr);grid-template-rows:auto}.chat{height:510px;flex:none}.code{height:220px}.right{min-height:430px}}
 </style></head>
 <body><header><div class="brand"><span class="logo">↗</span>Passo a Passo <span style="font-size:10px;color:#839087;font-weight:600">POC · v2</span></div><div class="headright"><button class="io-button" id="importBtn" type="button">Importar</button><input id="importFile" type="file" accept=".json,.txt,.mmd,.mermaid,application/json,text/plain" hidden><div class="export-wrap"><button class="io-button primary" id="exportToggle" type="button" aria-expanded="false">Exportar <span aria-hidden="true">⌄</span></button><div class="export-menu" id="exportMenu" hidden><div class="menu-title">Exportar arquivo</div><button data-export="json">JSON <small>estrutura editável</small></button><button data-export="txt">TXT <small>código Mermaid</small></button><div class="menu-rule"></div><button data-export="svg">SVG <small>vetorial</small></button><button data-export="png">PNG <small>imagem</small></button><button data-export="jpeg">JPEG <small>imagem</small></button><button data-export="pdf">PDF <small>imprimir ou salvar</small></button><button data-export="html">HTML <small>diagrama e código</small></button></div></div><span>Orientação</span><div class="orientation"><button id="tb" class="on">TB</button><button id="lr">LR</button></div></div></header>
-<main><section class="left"><div class="panel chat"><div class="bar"><span class="title">Entrevista do fluxo</span><div class="chat-tools"><span style="font-size:10px;color:#87938a">uma pergunta por vez</span><button class="history-btn" id="undoBtn" type="button" title="Desfazer (Ctrl+Z)" aria-label="Desfazer" disabled>↶</button><button class="history-btn" id="redoBtn" type="button" title="Refazer (Ctrl+Y)" aria-label="Refazer" disabled>↷</button></div></div><div class="chatlog" id="log" aria-live="polite"></div><form class="composer" id="form"><input id="answer" autocomplete="off" placeholder="Escreva sua resposta…"><button class="send">Enviar</button></form><div class="footnote">Escreva <code>[E]</code> para seguir para um nó existente; o texto antes dele vira o rótulo da seta.</div></div><div class="panel code"><div class="bar"><span class="title">Código Mermaid</span><span class="badge">gerado automaticamente</span></div><pre id="code">%% O código Mermaid aparecerá aqui conforme construímos o fluxo.</pre></div></section><section class="right"><div class="panel diagram"><div class="bar"><span class="title">Seu diagrama</span><span class="badge" id="status">Entrevista em andamento</span></div><div class="process-meta" id="processMeta" hidden></div><div class="canvas" id="canvas"><div class="empty">Vamos construir seu fluxo juntos.<br>Responda às perguntas no chat.</div></div></div></section></main>
+<main><section class="left"><div class="panel chat"><div class="bar"><span class="title">Entrevista do fluxo</span><div class="chat-tools"><span style="font-size:10px;color:#87938a">uma pergunta por vez</span><button class="history-btn" id="undoBtn" type="button" title="Desfazer (Ctrl+Z)" aria-label="Desfazer" disabled>↶</button><button class="history-btn" id="redoBtn" type="button" title="Refazer (Ctrl+Y)" aria-label="Refazer" disabled>↷</button></div></div><div class="interview-nav" id="interviewNav" hidden><p id="position" aria-live="polite"></p><details id="outline"><summary>Estrutura do processo</summary><ul id="outlineTree"></ul></details></div><div class="chatlog" id="log" aria-live="polite"></div><form class="composer" id="form"><input id="answer" autocomplete="off" placeholder="Escreva sua resposta…"><button class="send">Enviar</button></form><div class="footnote">Digite <code>[E]</code> para ligar ao nó E ou <code>Repetir [E]</code> para rotular a seta.</div></div><div class="panel code"><div class="bar"><span class="title">Código Mermaid</span><span class="badge">gerado automaticamente</span></div><pre id="code">%% O código Mermaid aparecerá aqui conforme construímos o fluxo.</pre></div></section><section class="right"><div class="panel diagram"><div class="bar"><span class="title">Seu diagrama</span><span class="badge" id="status">Entrevista em andamento</span></div><div class="process-meta" id="processMeta" hidden></div><div class="canvas" id="canvas"><div class="empty">Vamos construir seu fluxo juntos.<br>Responda às perguntas no chat.</div></div></div></section></main>
 <script type="module">
-import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'base',themeVariables:{fontFamily:'Inter,system-ui,sans-serif',primaryColor:'#f0f7f2',primaryTextColor:'#20352a',primaryBorderColor:'#78a98c',lineColor:'#819188',secondaryColor:'#fff6e7',tertiaryColor:'#f5f7f5',fontSize:'13px'},flowchart:{htmlLabels:true,curve:'basis',nodeSpacing:35,rankSpacing:42,padding:10}});
+let mermaidLoader;
+function loadMermaid() {
+  mermaidLoader ??= import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs').then(({default: mermaid}) => {
+    mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'base',themeVariables:{fontFamily:'Inter,system-ui,sans-serif',primaryColor:'#f0f7f2',primaryTextColor:'#20352a',primaryBorderColor:'#78a98c',lineColor:'#819188',secondaryColor:'#fff6e7',tertiaryColor:'#f5f7f5',fontSize:'13px'},flowchart:{htmlLabels:true,curve:'basis',nodeSpacing:35,rankSpacing:42,padding:10}});
+    return mermaid;
+  }).catch(error => { mermaidLoader = undefined; throw error; });
+  return mermaidLoader;
+}
 const $=s=>document.querySelector(s), log=$('#log'),input=$('#answer'),code=$('#code'),canvas=$('#canvas');
 const undoBtn=$('#undoBtn'),redoBtn=$('#redoBtn'),importFile=$('#importFile'),exportMenu=$('#exportMenu'),exportToggle=$('#exportToggle');
 let dir='TD',nodes=[],edges=[],state='processName',ctx={},nextId=0;let undoStack=[],redoStack=[];
 
 function captureState(){return {nodes:structuredClone(nodes),edges:structuredClone(edges),state,ctx:structuredClone(ctx),nextId,dir,logHTML:log.innerHTML,inputValue:input.value}}
-function restoreState(s){nodes=structuredClone(s.nodes);edges=structuredClone(s.edges);state=s.state;ctx=structuredClone(s.ctx);nextId=s.nextId;dir=s.dir;log.innerHTML=s.logHTML;input.value=s.inputValue;$('#tb').classList.toggle('on',dir==='TD');$('#lr').classList.toggle('on',dir==='LR');render();updateHistoryButtons();log.scrollTop=log.scrollHeight}
+function restoreState(s){nodes=structuredClone(s.nodes);edges=structuredClone(s.edges);state=s.state;ctx=structuredClone(s.ctx);nextId=s.nextId;dir=s.dir;log.innerHTML=s.logHTML;input.value=s.inputValue;$('#tb').classList.toggle('on',dir==='TD');$('#lr').classList.toggle('on',dir==='LR');render();renderOutline();updateHistoryButtons();log.scrollTop=log.scrollHeight}
 function updateHistoryButtons(){undoBtn.disabled=!undoStack.length;redoBtn.disabled=!redoStack.length}
 function undo(){if(!undoStack.length)return;redoStack.push(captureState());restoreState(undoStack.pop())}
 function redo(){if(!redoStack.length)return;undoStack.push(captureState());restoreState(redoStack.pop())}
-function say(text,buttons=[]){const d=document.createElement('div');d.className='msg bot';const p=document.createElement('div');p.className='prompt';p.textContent=text;d.appendChild(p);if(buttons.length){const q=document.createElement('div');q.className='quick';buttons.forEach(([label,value])=>{const b=document.createElement('button');b.textContent=label;b.onclick=()=>submit(value);q.appendChild(b)});d.appendChild(q)}log.appendChild(d);log.scrollTop=log.scrollHeight;input.focus()}
-function user(text){const d=document.createElement('div');d.className='msg you';d.textContent=text;log.appendChild(d);log.scrollTop=log.scrollHeight}
-function note(text){const d=document.createElement('div');d.className='msg system';d.textContent=text;log.appendChild(d);log.scrollTop=log.scrollHeight}
-function activeDecisionFrame(){return ctx.decisionFrames?.at(-1)||null}
-function beginDecisionFrame(frame){frame.branchIndex=0;ctx.current=frame.id;ctx.activeBranchLabel=frame.branches[0];ctx.inBranch=true;ctx.afterLabel=frame.label;state='branchAction';say(`No caminho “${ctx.activeBranchLabel}”, o que acontece?`,[['Passo','__step'],['Decisão','__decision'],['Conclusão','__end']])}
-function advanceDecisionFrame(){const frame=activeDecisionFrame();if(!frame)return;frame.branchIndex++;if(frame.branchIndex<frame.total){beginDecisionFrame(frame);return}ctx.decisionFrames.pop();if(ctx.decisionFrames.length){advanceDecisionFrame();return}ctx.inBranch=false;state='done';$('#status').textContent='Fluxo concluído';say('Todos os caminhos desta decisão terminam em uma conclusão. O fluxo está completo; você ainda pode criar uma ligação de retorno para outro passo.')}
-function askNext(){state=ctx.inBranch?'branchAction':'action';say(`Qual é o próximo passo depois de “${ctx.afterLabel}”?`,[['Passo','__step'],['Decisão','__decision'],['Conclusão','__end']]);}
+function say(text, buttons = []) {
+  log.querySelector('.quick')?.remove();
+  const message = document.createElement('div');
+  message.className = 'msg bot';
+  const prompt = document.createElement('div');
+  prompt.className = 'prompt';
+  prompt.textContent = text;
+  message.append(prompt);
+  if (buttons.length) {
+    const choices = document.createElement('div');
+    choices.className = 'quick';
+    for (const [label, value] of buttons) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.dataset.answer = value;
+      button.textContent = label;
+      choices.append(button);
+    }
+    message.append(choices);
+  }
+  log.append(message);
+  log.scrollTop = log.scrollHeight;
+  input.focus({preventScroll:true});
+  renderOutline();
+}
+
+function addMessage(text, kind) {
+  const message = document.createElement('div');
+  message.className = 'msg ' + kind;
+  message.textContent = text;
+  log.append(message);
+  log.scrollTop = log.scrollHeight;
+}
+const user = text => addMessage(text, 'you');
+const note = text => addMessage(text, 'system');
+const actions = [
+  ['Passo', '__step'], ['Decisão', '__decision'],
+  ['Conclusão', '__end'], ['Ligar a um nó', '__link']
+];
+const getNode = id => nodes.find(node => node.id === id);
+const getDecision = id => ctx.decisions?.find(decision => decision.id === id);
+const activeDecision = () => getDecision(ctx.stack?.at(-1));
+const branchKey = (id, index) => id + ':' + index;
+
+function renderOutline() {
+  const nav = $('#interviewNav');
+  nav.hidden = !nodes.length;
+  if (nav.hidden) return;
+  const stack = ctx.stack || [];
+  const current = getNode(ctx.current);
+  const route = stack.map(id => {
+    const decision = getDecision(id);
+    return decision.branches[decision.index]?.name || getNode(id).label;
+  });
+  $('#position').textContent = state === 'done' ? 'Entrevista concluída'
+    : ['Caminho principal', ...route, current && '[' + current.id + '] ' + current.label]
+      .filter(Boolean).join(' › ');
+
+  const tree = $('#outlineTree');
+  const expanded = new Map([...tree.querySelectorAll('details')].map(group => [group.dataset.key, group]));
+  const activeKeys = new Set(stack.flatMap(id => [id, branchKey(id, getDecision(id).index)]));
+  const lists = new Map();
+  for (const node of nodes) {
+    const key = ctx.locations?.[node.id] || '';
+    if (!lists.has(key)) lists.set(key, []);
+    lists.get(key).push(node);
+  }
+  function addRow(parent, label, key, active, status) {
+    const li = document.createElement('li');
+    parent.append(li);
+    const row = document.createElement(key ? 'summary' : 'div');
+    row.textContent = label;
+    if (active) row.setAttribute('aria-current', 'step');
+    if (status) {
+      const detail = document.createElement('span');
+      detail.className = 'outline-status';
+      detail.textContent = status;
+      row.append(detail);
+    }
+    if (!key) {
+      row.className = 'outline-item';
+      li.append(row);
+      return;
+    }
+    const group = document.createElement('details');
+    group.dataset.key = key;
+    const previous = expanded.get(key);
+    const onRoute = activeKeys.has(key);
+    group.dataset.onRoute = String(onRoute);
+    group.open = onRoute && previous?.dataset.onRoute !== 'true' ? true : previous?.open || false;
+    const list = document.createElement('ul');
+    group.append(row, list);
+    li.append(group);
+    return list;
+  }
+  function appendNodes(parent, key) {
+    for (const node of lists.get(key) || []) {
+      const decision = getDecision(node.id);
+      const label = '[' + node.id + '] ' + node.label;
+      const active = state !== 'done' && node.id === ctx.current;
+      const group = addRow(parent, label, decision?.id, active);
+      decision?.branches.forEach((branch, index) => {
+        const childKey = branchKey(node.id, index);
+        const active = activeKeys.has(childKey);
+        const status = branch.result || (active ? 'Em andamento' : 'A fazer');
+        appendNodes(addRow(group, branch.name, childKey, active, status), childKey);
+      });
+    }
+  }
+  tree.replaceChildren();
+  appendNodes(tree, '');
+}
 function addNode(label,type){let id;do{id=nextId<26?String.fromCharCode(65+nextId):'N'+(nextId+1);nextId++}while(nodes.some(n=>n.id===id));const n={id,label,type};nodes.push(n);return n}
-function clean(s){return s.replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/[<>]/g,'')}
-function mermaidText(){if(!nodes.length)return '';const cleanMeta=s=>String(s||'').replace(/[\r\n%]/g,' ').trim();const out=[];if(ctx.processName)out.push('%% Processo: '+cleanMeta(ctx.processName));if(ctx.persona)out.push('%% Usuário: '+cleanMeta(ctx.persona));if(ctx.actors)out.push('%% Atua: '+cleanMeta(ctx.actors));out.push('flowchart '+dir);for(const n of nodes){let shape=n.type==='start'?`(["${clean(n.label)}"])`:n.type==='decision'?`{"${clean(n.label)}"}`:n.type==='end'?`(["${clean(n.label)}"])`:`["${clean(n.label)}"]`;out.push(`  ${n.id}${shape}`)}for(const e of edges)out.push(`  ${e.from} -->${e.label?'|'+clean(e.label)+'|':' '} ${e.to}`);out.push('  classDef startNode fill:#e8f5ec,stroke:#3c8a5c,stroke-width:2px,color:#183e2a;','  classDef stepNode fill:#ffffff,stroke:#8da99a,stroke-width:1.5px,color:#20372a;','  classDef decisionNode fill:#fff5df,stroke:#d59a36,stroke-width:2px,color:#594118;','  classDef endNode fill:#eaf2ff,stroke:#6689ca,stroke-width:2px,color:#253d68;');for(const n of nodes)out.push(`  class ${n.id} ${n.type==='start'?'startNode':n.type==='decision'?'decisionNode':n.type==='end'?'endNode':'stepNode'}`);return out.join('\n')}
+function clean(s) {
+  return s.replace(/[\r\n]/g, ' ').replace(/[#"<>&|`\\;%]/g, character => '#' + character.charCodeAt(0) + ';');
+}
+function mermaidText(){if(!nodes.length)return '';const cleanMeta=s=>String(s||'').replace(/[\r\n%]/g,' ').trim();const out=[];if(ctx.processName)out.push('%% Processo: '+cleanMeta(ctx.processName));if(ctx.persona)out.push('%% Usuário: '+cleanMeta(ctx.persona));if(ctx.actors)out.push('%% Atua: '+cleanMeta(ctx.actors));out.push('flowchart '+dir);for(const n of nodes){let shape=n.type==='start'?`(["${clean(n.label)}"])`:n.type==='decision'?`{"${clean(n.label)}"}`:n.type==='end'?`(["${clean(n.label)}"])`:`["${clean(n.label)}"]`;out.push(`  ${n.id}${shape}`)}for (const edge of edges) {
+  const arrow = edge.loop ? '-.->' : '-->';
+  const label = edge.label ? '|' + clean(edge.label) + '|' : '';
+  out.push('  ' + edge.from + ' ' + arrow + label + ' ' + edge.to);
+}out.push('  classDef startNode fill:#e8f5ec,stroke:#3c8a5c,stroke-width:2px,color:#183e2a;','  classDef stepNode fill:#ffffff,stroke:#8da99a,stroke-width:1.5px,color:#20372a;','  classDef decisionNode fill:#fff5df,stroke:#d59a36,stroke-width:2px,color:#594118;','  classDef endNode fill:#eaf2ff,stroke:#6689ca,stroke-width:2px,color:#253d68;');for(const n of nodes)out.push(`  class ${n.id} ${n.type==='start'?'startNode':n.type==='decision'?'decisionNode':n.type==='end'?'endNode':'stepNode'}`);return out.join('\n')}
 function updateProcessMeta(){const el=$('#processMeta');if(!el)return;const title=String(ctx.processName||'').trim(),parts=[];if(ctx.persona)parts.push('Usuário: '+ctx.persona);if(ctx.actors)parts.push('Atua: '+ctx.actors);el.hidden=!(title||parts.length);el.replaceChildren();if(title){const strong=document.createElement('strong');strong.textContent=title;el.appendChild(strong)}if(parts.length){const detail=document.createElement('span');detail.textContent=parts.join(' · ');el.appendChild(detail)}}
-async function render(){updateProcessMeta();const src=mermaidText();code.textContent=src||'%% O Mermaid aparecerá aqui conforme construímos o fluxo.';if(!src){canvas.innerHTML='<div class="empty">Vamos construir seu fluxo juntos.<br>Responda às perguntas no chat.</div>';return}try{const {svg}=await mermaid.render('graph-'+Date.now(),src);canvas.innerHTML=svg}catch(e){canvas.innerHTML='<div class="empty">O diagrama precisa de um ajuste. Vou ajudar a resolver pelo chat.</div>';console.warn(e)}$('#status').textContent=nodes.length?'Fluxo em construção':'Entrevista em andamento'}
+let renderVersion = 0;
+let renderedSource = '';
+async function render() {
+  updateProcessMeta();
+  const src = mermaidText();
+  code.textContent = src || '%% O código Mermaid aparecerá aqui conforme construímos o fluxo.';
+  $('#status').textContent = state === 'done' ? 'Fluxo concluído'
+    : state === 'review' ? 'Revisar saídas'
+    : nodes.length ? 'Fluxo em construção' : 'Entrevista em andamento';
+  if (src === renderedSource) return;
+  renderedSource = src;
+  const version = ++renderVersion;
+  if (!src) {
+    canvas.innerHTML = '<div class="empty">Responda às perguntas da entrevista para começar o diagrama.</div>';
+    return;
+  }
+  try {
+    const mermaid = await loadMermaid();
+    if (version !== renderVersion) return;
+    const {svg} = await mermaid.render('graph-' + version, src);
+    if (version === renderVersion) canvas.innerHTML = svg;
+  } catch (error) {
+    if (version !== renderVersion) return;
+    renderedSource = '';
+    console.warn(error);
+    canvas.innerHTML = '<div class="empty">Não foi possível renderizar o diagrama. O código Mermaid continua disponível.</div>';
+  }
+}
 
 function downloadFile(filename,blob){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1200)}
 function baseName(){return ((ctx.processName||ctx.persona)?('fluxo-'+(ctx.processName||ctx.persona)):'meu-fluxo').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'meu-fluxo'}
@@ -64,15 +219,26 @@ async function exportAs(format){exportMenu.hidden=true;exportToggle.setAttribute
  if(format==='png'||format==='jpeg'){const blob=new Blob([svg],{type:'image/svg+xml;charset=utf-8'}),url=URL.createObjectURL(blob),img=new Image();await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;img.src=url});const box=img.width&&img.height?{w:img.width,h:img.height}:{w:1200,h:800};const scale=2,c=document.createElement('canvas');c.width=box.w*scale;c.height=box.h*scale;const cx=c.getContext('2d');if(format==='jpeg'){cx.fillStyle='#ffffff';cx.fillRect(0,0,c.width,c.height)}cx.scale(scale,scale);cx.drawImage(img,0,0,box.w,box.h);URL.revokeObjectURL(url);const out=await new Promise(resolve=>c.toBlob(resolve,format==='png'?'image/png':'image/jpeg',.94));if(!out)throw new Error('Não foi possível converter o diagrama para imagem.');downloadFile(base+'.'+(format==='jpeg'?'jpg':'png'),out);return}
  }catch(e){note(e.message||'Não foi possível exportar este arquivo.')}
 }
-function decodeLabel(s){return s.replace(/\\n/g,' ').replace(/\\"/g,'"').replace(/\\\\/g,'\\')}
+function decodeLabel(s) {
+  return s.replace(/\\n/g,' ').replace(/\\"/g,'"').replace(/\\\\/g,'\\')
+    .replace(/#(34|35|37|38|59|60|62|92|96|124);/g, (_, value) => String.fromCharCode(Number(value)));
+}
 function importMermaid(src){
  const parsedNodes=new Map(),parsedEdges=[],classes=new Map();let importedDir='TD';
+ const metadata = {};
  for(const raw of src.split(/\r?\n/)){
-  const line=raw.trim();if(!line||line.startsWith('%%'))continue;
+  const line=raw.trim();
+  const meta = line.match(/^%% (Processo|Usuário|Atua): (.*)$/);
+  if (meta) metadata[{Processo:'processName',Usuário:'persona',Atua:'actors'}[meta[1]]] = meta[2];
+  if (!line || line.startsWith('%%')) continue;
   const dm=line.match(/^flowchart\s+(TB|TD|BT|RL|LR)\b/i);if(dm){importedDir=dm[1].toUpperCase();continue}
   const cm=line.match(/^class\s+(\w+)\s+(startNode|stepNode|decisionNode|endNode)\b/);if(cm){classes.set(cm[1],cm[2]);continue}
   if(/^classDef\b/.test(line))continue;
-  const em=line.match(/^(\w+)\s+-->\s*(?:\|(.+?)\|\s*)?(\w+)\s*;?$/);if(em){parsedEdges.push({from:em[1],to:em[3],label:em[2]||''});continue}
+  const em = line.match(/^(\w+)\s+(-->|-\.->)\s*(?:\|(.+?)\|\s*)?(\w+)\s*;?$/);
+  if (em) {
+    parsedEdges.push({from:em[1], to:em[4], label:decodeLabel(em[3] || ''), ...(em[2] === '-.->' && {loop:true})});
+    continue;
+  }
   const nm=line.match(/^(\w+)\s*(?:\(\[\s*"((?:\\.|[^"])*)"\s*\]\)|\{\s*"((?:\\.|[^"])*)"\s*\}|\[\s*"((?:\\.|[^"])*)"\s*\])/);
   if(nm){const shape=nm[2]!==undefined?'oval':nm[3]!==undefined?'decision':'step';parsedNodes.set(nm[1],{id:nm[1],label:decodeLabel(nm[2]??nm[3]??nm[4]),shape})}
  }
@@ -80,15 +246,15 @@ function importMermaid(src){
  const incoming=new Set(parsedEdges.map(e=>e.to)),roots=[...parsedNodes.keys()].filter(id=>!incoming.has(id)),first=roots[0]||parsedNodes.keys().next().value;
  nodes=[...parsedNodes.values()].map(n=>{const cls=classes.get(n.id);const type=cls==='startNode'?'start':cls==='decisionNode'||n.shape==='decision'?'decision':cls==='endNode'||(n.shape==='oval'&&/^(fim|conclu[ií]do|encerrad[oa])/i.test(n.label))?'end':n.id===first?'start':'step';return{id:n.id,label:n.label,type}});
  edges=parsedEdges.filter(e=>parsedNodes.has(e.from)&&parsedNodes.has(e.to));dir=importedDir;
- ctx={persona:'',current:nodes.at(-1)?.id,afterLabel:nodes.at(-1)?.label,inBranch:false};nextId=0;state='continue';render()
+ ctx={...metadata,current:nodes.at(-1)?.id,afterLabel:nodes.at(-1)?.label,inBranch:false};nextId=0;state='imported';render()
 }
 function importJSON(data){
  const obj=typeof data==='string'?JSON.parse(data):data,ns=Array.isArray(obj)?obj:obj?.nodes,es=Array.isArray(obj?.edges)?obj.edges:[];
  if(!Array.isArray(ns)||!ns.length)throw new Error('O JSON precisa conter uma lista “nodes” com pelo menos um nó.');
  nodes=ns.map((n,i)=>({id:String(n.id??String.fromCharCode(65+i)),label:String(n.label??n.text??n.name??''),type:['start','step','decision','end'].includes(n.type)?n.type:(i===0?'start':'step')}));
- edges=es.map(e=>({from:String(e.from??e.source),to:String(e.to??e.target),label:String(e.label??'')})).filter(e=>nodes.some(n=>n.id===e.from)&&nodes.some(n=>n.id===e.to));
+ edges=es.map(e=>({from:String(e.from??e.source),to:String(e.to??e.target),label:String(e.label??''),...(e.loop===true&&{loop:true})})).filter(e=>nodes.some(n=>n.id===e.from)&&nodes.some(n=>n.id===e.to));
  dir=['TD','TB','BT','LR','RL'].includes(obj.direction)?(obj.direction==='TB'?'TD':obj.direction):'TD';
- ctx={processName:String(obj.processName||obj.title||''),persona:String(obj.persona||obj.user||''),actors:String(obj.actors||''),current:nodes.at(-1)?.id,afterLabel:nodes.at(-1)?.label,inBranch:false};nextId=0;state='continue';render()
+ ctx={processName:String(obj.processName||obj.title||''),persona:String(obj.persona||obj.user||''),actors:String(obj.actors||''),current:nodes.at(-1)?.id,afterLabel:nodes.at(-1)?.label,inBranch:false};nextId=0;state='imported';render()
 }
 async function onImportFile(file){
  if(!file)return;
@@ -96,36 +262,308 @@ async function onImportFile(file){
   const text=await file.text();undoStack.push(captureState());redoStack=[];
   if(file.name.toLowerCase().endsWith('.json'))importJSON(JSON.parse(text));else importMermaid(text);
   updateHistoryButtons();log.innerHTML='';
-  say('Fluxo importado. Quer continuar editando?', [['Continuar','__continue'],['Concluir','__done']]);
-  note('Importação concluída. Revise as conexões no diagrama e no código Mermaid.')
+  askImportResume()
  }catch(e){note(e.message||'Não consegui importar este arquivo.')}finally{importFile.value=''}
 }
-function connect(from,to,label=''){if(!nodes.some(n=>n.id===from)||!nodes.some(n=>n.id===to)){note(`Não encontrei o nó ${to}. Confira a letra no Mermaid e tente de novo.`);say(`Para qual passo existente devo ligar? Você pode responder, por exemplo, “voltar para o passo E”.`);state='loop';return false}edges.push({from,to,label});return true}
-function parseLoop(text){const m=text.match(/(?:voltar|retornar|ir)\s+(?:para\s+)?(?:o\s+)?(?:passo|n[oó])\s+([a-z]\w*)/i);if(!m)return null;return m[1].toUpperCase()}
-function parseNodeReference(text){const m=text.match(/^(.*?)\s*\[([a-z]\w*)\]\s*$/i);return m?{label:m[1].trim(),id:m[2].toUpperCase()}:null}
-function followNodeReference(ref){const target=nodes.find(n=>n.id.toUpperCase()===ref.id);if(!target){note(`Não encontrei [${ref.id}]. Confira o identificador no código Mermaid e tente novamente.`);say('Use o ID que aparece antes do nó no Mermaid, por exemplo [E].');return}if(!ctx.current||!nodes.some(n=>n.id===ctx.current)){note('Ainda não há um nó atual para conectar.');return}const frame=activeDecisionFrame(),label=ref.label||(ctx.inBranch&&frame&&ctx.current===frame.id?ctx.activeBranchLabel:'');edges.push({from:ctx.current,to:target.id,label});ctx.current=target.id;ctx.afterLabel=target.label;render();if(target.type==='end'){if(ctx.inBranch)advanceDecisionFrame();else{state='done';$('#status').textContent='Fluxo concluído';say(`Conectei ao nó [${target.id}] (“${target.label}”), que encerra o fluxo.`)}}else if(ctx.inBranch){state='branchAction';say(`Conectei ao nó [${target.id}] (“${target.label}”). Qual é o próximo passo deste caminho?`,[['Passo','__step'],['Decisão','__decision'],['Conclusão','__end']])}else{state='action';say(`Conectei ao nó [${target.id}] (“${target.label}”). Qual é o próximo passo?`,[['Passo','__step'],['Decisão','__decision'],['Conclusão','__end']])}}
-function submit(raw){const text=String(raw??input.value).trim();if(!text)return;undoStack.push(captureState());if(undoStack.length>100)undoStack.shift();redoStack=[];updateHistoryButtons();input.value='';user(text);if(/^__continue$/.test(text)&&nodes.length){state='chooseBranch';ctx.branchIndex=0;say(`Qual caminho da decisão “${ctx.decisionLabel||'decisão'}” você quer continuar?`,ctx.branches.map((b,i)=>[b,String(i)]));return}const reference=parseNodeReference(text);if(reference&&nodes.length){followNodeReference(reference);return}const loop=parseLoop(text);if(loop&&nodes.length){ctx.loopTarget=loop;state='loopLabel';say(`Entendi: este fluxo deve voltar para [${loop}]. Qual texto deve aparecer nessa seta?`,[['Repetir','Repetir'],['Tentar novamente','Tentar novamente']]);return}
-switch(state){case'processName':ctx.processName=text;state='persona';say('Quem é o usuário deste processo?');break;
-case'persona':ctx.persona=text;state='actors';say('Quem atua neste processo? Pode ser uma pessoa, equipe ou sistema.');break;
-case'actors':ctx.actors=text;state='start';say('Qual é o ponto de partida deste processo?');break;
-case'start':{const n=addNode(text,'start');ctx.current=n.id;ctx.afterLabel=n.label;render();askNext();break}
-case'action':if(text==='__step'){state='stepLabel';say('Qual é o nome deste passo?')}else if(text==='__decision'){state='decisionLabel';say('Qual pergunta essa decisão precisa responder?')}else if(text==='__end'){state='endLabel';say('Qual texto deve aparecer na conclusão?', [['Fim','Fim']])}else{note('Escolha Passo, Decisão ou Conclusão nos botões para eu saber o tipo deste nó.');askNext()}break;
-case'stepLabel':{const from=ctx.current,n=addNode(text,'step');connect(from,n.id,ctx.inBranch?ctx.activeBranchLabel:'');ctx.current=n.id;ctx.afterLabel=n.label;render();askNext();break}
-case'decisionLabel':ctx.pendingDecisionLabel=text;state='branchCount';say(`Quantos caminhos diferentes saem de “${text}”?`);break;
-case'branchCount':{const count=Number(text);if(!Number.isInteger(count)||count<2||count>20){note('Informe um número inteiro entre 2 e 20.');say(`Quantos caminhos diferentes saem de “${ctx.pendingDecisionLabel}”?`);break}const d=addNode(ctx.pendingDecisionLabel,'decision'),parent=activeDecisionFrame(),edgeLabel=ctx.inBranch&&parent&&ctx.current===parent.id?ctx.activeBranchLabel:'';connect(ctx.current,d.id,edgeLabel);const frame={id:d.id,label:d.label,total:count,branches:[],branchIndex:0};ctx.decisionFrames??=[];ctx.decisionFrames.push(frame);ctx.pendingDecisionId=d.id;ctx.current=d.id;ctx.inBranch=false;render();state='branchName';say(`Qual é o nome do caminho 1 de ${count}?`);break}
-case'branchName':{const frame=ctx.decisionFrames?.find(f=>f.id===ctx.pendingDecisionId);if(!frame){note('Perdi o contexto desta decisão. Vou reiniciar a coleta dos caminhos.');state='action';askNext();break}if(frame.branches.some(b=>b.trim().toLocaleLowerCase()===text.toLocaleLowerCase())){note('Cada caminho precisa ter um nome diferente para ficar claro no diagrama.');say(`Qual é o nome do caminho ${frame.branches.length+1} de ${frame.total}?`);break}frame.branches.push(text);if(frame.branches.length<frame.total){say(`Qual é o nome do caminho ${frame.branches.length+1} de ${frame.total}?`)}else beginDecisionFrame(frame);break}
-case'branchAction':{const frame=activeDecisionFrame();if(!frame){note('Esta decisão não tem contexto de caminhos. Vou perguntar o tipo do próximo nó novamente.');state='action';askNext();break}if(text==='__step'||text==='__end'){ctx.branchType=text.slice(2);state='branchNodeLabel';say(ctx.branchType==='step'?'Qual é o nome deste passo?':'Qual texto deve aparecer nesta conclusão?',[...(ctx.branchType==='end'?[['Fim','Fim']]:[])]);}else if(text==='__decision'){state='decisionLabel';say('Qual pergunta esta decisão precisa responder?')}else{note('Escolha Passo, Decisão ou Conclusão para continuar este caminho.');say(`No caminho “${ctx.activeBranchLabel}”, o que acontece?`,[['Passo','__step'],['Decisão','__decision'],['Conclusão','__end']])}break}
-case'branchNodeLabel':{const frame=activeDecisionFrame();if(!frame){note('Não encontrei a decisão a que este caminho pertence.');state='action';askNext();break}const n=addNode(text,ctx.branchType),edgeLabel=ctx.current===frame.id?ctx.activeBranchLabel:'';edges.push({from:ctx.current,to:n.id,label:edgeLabel});ctx.current=n.id;render();if(ctx.branchType==='end'){advanceDecisionFrame()}else{ctx.afterLabel=n.label;state='branchAction';say(`Qual é o próximo passo depois de “${n.label}” no caminho “${ctx.activeBranchLabel}”?`,[['Passo','__step'],['Decisão','__decision'],['Conclusão','__end']])}break}
-case'endLabel':{const n=addNode(text,'end');connect(ctx.current,n.id,ctx.inBranch?ctx.activeBranchLabel:'');ctx.current=n.id;render();if(ctx.inBranch){ctx.branchIndex++;continueBranches()}else{state='continue';say('Esse fluxo termina aqui ou há outro passo depois?', [['Encerrar fluxo','__done'],['Adicionar passo','__continue']])}break}
-case'continue':if(text==='__done'){state='done';$('#status').textContent='Fluxo concluído';say('Fluxo concluído. Se quiser, você ainda pode adicionar uma ligação para um passo existente digitando “voltar para o passo C”.')}else{state='action';ctx.afterLabel=nodes.at(-1).label;say(`Qual é o próximo passo depois de “${ctx.afterLabel}”?`,[['Passo','__step'],['Decisão','__decision'],['Conclusão','__end']])}break;
-case'loop':{const target=text.match(/\b([A-Z])\b/);const id=target?target[1]:ctx.loopTarget;if(!id||!nodes.some(n=>n.id===id)){note('Essa letra não corresponde a um nó do diagrama.');say('Qual é a letra do passo de destino? Exemplo: E.');break}ctx.loopTarget=id;state='loopLabel';say(`Qual texto deve aparecer na seta que volta para ${id}?`,[['Repetir','Repetir'],['Tentar novamente','Tentar novamente']]);break}
-case'loopLabel':{const from=ctx.current,to=ctx.loopTarget;if(connect(from,to,text)){render();ctx.afterLabel=nodes.find(n=>n.id===to).label;state='continue';say(`Ligação criada: ${from} → ${to} (${text}). Quer continuar criando o fluxo a partir de “${ctx.afterLabel}”?`,[['Sim, continuar','__continue'],['Encerrar fluxo','__done']])}break}
-case'chooseBranch':{const i=Number(text);if(Number.isInteger(i)&&ctx.branches[i]){ctx.branchIndex=i;ctx.activeBranchLabel=ctx.branches[i];ctx.current=ctx.decisionId;ctx.inBranch=true;ctx.branchRoot=ctx.decisionId;state='branchAction';say(`No caminho “${ctx.activeBranchLabel}”, qual é o próximo passo?`,[['Passo','__step'],['Decisão','__decision'],['Conclusão','__end']])}else{say('Escolha um dos caminhos da decisão.',ctx.branches.map((b,j)=>[b,String(j)]))}break}
-case'done':say('O fluxo está concluído. Para adicionar um loop, digite “voltar para o passo [letra]”.');break;
-default:note('Vou retomar a construção a partir do último nó.');ctx.afterLabel=nodes.at(-1)?.label||'';askNext();}
+function askNext() {
+  state = 'action';
+  const decision = activeDecision();
+  const branch = decision?.branches[decision.index];
+  if (branch && ctx.current === decision.id) {
+    say('O que acontece no caminho “' + branch.name + '”?', actions);
+    return;
+  }
+  say('O que acontece depois de “' + getNode(ctx.current).label + '”?', actions);
 }
 
+function appendEdge(target, label = '', loop = false) {
+  const decision = activeDecision();
+  if (decision && ctx.current === decision.id) {
+    const branch = decision.branches[decision.index].name;
+    label = label && label !== branch ? branch + ' · ' + label : branch;
+  }
+  const edge = {from:ctx.current, to:target, label};
+  if (loop) edge.loop = true;
+  edges.push(edge);
+}
+
+function appendNode(label, type) {
+  const node = addNode(label, type);
+  const decision = activeDecision();
+  if (decision) {
+    ctx.locations ??= {};
+    ctx.locations[node.id] = branchKey(decision.id, decision.index);
+  }
+  if (ctx.current) appendEdge(node.id);
+  ctx.current = node.id;
+  return node;
+}
+
+function reachable(from, reverse = false) {
+  const graph = new Map();
+  for (const {from, to} of edges) {
+    const source = reverse ? to : from;
+    const target = reverse ? from : to;
+    if (!graph.has(source)) graph.set(source, []);
+    graph.get(source).push(target);
+  }
+  const seen = new Set(from);
+  const queue = [...from];
+  for (let index = 0; index < queue.length; index++) {
+    for (const target of graph.get(queue[index]) || []) {
+      if (seen.has(target)) continue;
+      seen.add(target);
+      queue.push(target);
+    }
+  }
+  return seen;
+}
+
+function finishInterview() {
+  const canEnd = reachable(nodes.filter(node => node.type === 'end').map(node => node.id), true);
+  const start = nodes.find(node => node.type === 'start') || nodes[0];
+  const reachableNodes = reachable([start.id]);
+  const trapped = nodes.filter(node => reachableNodes.has(node.id) && !canEnd.has(node.id));
+  if (trapped.length) {
+    state = 'review';
+    const sample = trapped.slice(0, 3).map(node => '[' + node.id + '] ' + node.label).join(', ');
+    say('Há trechos sem saída para uma conclusão, como ' + sample + '. Esse comportamento é intencional?',
+      [['Manter assim', '__accept'], ['Desfazer última resposta', '__undo']]);
+    return;
+  }
+  markDone();
+}
+
+function markDone() {
+  state = 'done';
+  say('Fluxo concluído. Para ajustar a última resposta, use Desfazer.');
+}
+
+function finishPath(result) {
+  let decision = activeDecision();
+  while (decision) {
+    decision.branches[decision.index].result = result;
+    decision.index++;
+    if (decision.index < decision.branches.length) {
+      ctx.current = decision.id;
+      askNext();
+      return;
+    }
+    ctx.stack.pop();
+    decision = activeDecision();
+    result = 'Subcaminhos definidos';
+  }
+  finishInterview();
+}
+
+function askBranchName(decision) {
+  state = 'branchName';
+  say('Qual é o nome do caminho ' + (decision.branches.length + 1) + ' de ' + decision.total + '?');
+}
+
+function beginDecision(node) {
+  ctx.decisions ??= [];
+  ctx.stack ??= [];
+  ctx.decisions.push({id:node.id, total:0, branches:[], index:0});
+  ctx.stack.push(node.id);
+  state = 'branchCount';
+  say('Quantos caminhos saem desta decisão?');
+}
+
+function parseReference(text) {
+  const plain = text.match(/^(.*?)\s*\[([\w-]+)\]$/);
+  if (plain) return {id:plain[2], label:plain[1].trim()};
+  const legacy = text.match(/^(?:voltar|retornar|ir)\s+(?:para\s+)?(?:o\s+)?(?:passo|n[oó])\s+([\w-]+)$/i);
+  return legacy ? {id:legacy[1], label:'Voltar'} : null;
+}
+
+function findReference(id) {
+  return getNode(id) || nodes.find(node => node.id.toLowerCase() === id.toLowerCase());
+}
+
+function askLink() {
+  state = 'link';
+  say('Para qual nó o caminho deve seguir? Digite o ID ou escolha um destino.',
+    [['Cancelar', '__cancel'], ...nodes.map(node => [
+      '[' + node.id + '] ' + node.label, 'ref:' + node.id
+    ])]);
+}
+
+function followReference(ref) {
+  const target = findReference(ref.id);
+  if (!target) {
+    note('Não encontrei [' + ref.id + ']. Confira o ID no código ou escolha um destino.');
+    askLink();
+    return;
+  }
+  const alreadyDefined = target.type === 'end' || target.type === 'decision'
+    || edges.some(edge => edge.from === target.id);
+  const loop = reachable([target.id]).has(ctx.current);
+  appendEdge(target.id, ref.label, loop);
+  const outcome = (loop ? 'Retorno a ' : 'Segue para ') + '[' + target.id + '] ' + target.label;
+  note(outcome + '.');
+  if (alreadyDefined || loop) {
+    finishPath(outcome);
+    return;
+  }
+  ctx.current = target.id;
+  askNext();
+}
+
+function askImportResume() {
+  state = 'imported';
+  const open = nodes.filter(node => node.type !== 'end' && !edges.some(edge => edge.from === node.id));
+  const buttons = open.map(node => ['[' + node.id + '] ' + node.label, 'resume:' + node.id]);
+  say(buttons.length ? 'De qual nó sem saída você quer continuar?' : 'Fluxo importado. Você pode revisar o diagrama e o código.',
+    [...buttons, ['Concluir entrevista', '__done']]);
+}
+
+function submit(raw, display) {
+  const text = String(raw ?? input.value).trim();
+  if (!text) return;
+  if (text === '__undo' && state === 'review') {
+    undo();
+    return;
+  }
+  undoStack.push(captureState());
+  if (undoStack.length > 100) undoStack.shift();
+  redoStack = [];
+  updateHistoryButtons();
+  input.value = '';
+  user(display || text);
+  respond(text);
+  render();
+}
+
+function respond(text) {
+  if (['action', 'link', 'stepLabel', 'endLabel', 'decisionLabel'].includes(state)) {
+    const ref = parseReference(text);
+    if (ref) return followReference(ref);
+  }
+  switch (state) {
+    case 'processName':
+      ctx.processName = text;
+      state = 'persona';
+      say('Quem é o usuário deste processo?');
+      break;
+    case 'persona':
+      ctx.persona = text;
+      state = 'actors';
+      say('Quem atua neste processo? Pode ser uma pessoa, equipe ou sistema.');
+      break;
+    case 'actors':
+      ctx.actors = text;
+      state = 'start';
+      say('O que dá início ao processo?');
+      break;
+    case 'start':
+      appendNode(text, 'start');
+      askNext();
+      break;
+    case 'action':
+      switch (text.toLocaleLowerCase('pt-BR')) {
+        case '__step':
+        case 'passo':
+          state = 'stepLabel';
+          say('Qual é o nome deste passo?');
+          return;
+        case '__decision':
+        case 'decisão':
+        case 'decisao':
+          state = 'decisionLabel';
+          say('Qual pergunta esta decisão precisa responder?');
+          return;
+        case '__end':
+        case 'conclusão':
+        case 'conclusao':
+          state = 'endLabel';
+          say('Como termina este caminho?', [['Fim', 'Fim']]);
+          return;
+        case '__link':
+          askLink();
+          return;
+        case 'fim':
+          appendNode('Fim', 'end');
+          finishPath('Concluído');
+          return;
+      }
+      if (text.endsWith('?')) {
+        beginDecision(appendNode(text, 'decision'));
+      } else {
+        appendNode(text, 'step');
+        askNext();
+      }
+      break;
+    case 'stepLabel':
+      appendNode(text, 'step');
+      askNext();
+      break;
+    case 'endLabel':
+      appendNode(text, 'end');
+      finishPath('Concluído');
+      break;
+    case 'decisionLabel':
+      beginDecision(appendNode(text, 'decision'));
+      break;
+    case 'branchCount': {
+      const names = ['dois', 'tres', 'quatro', 'cinco', 'seis', 'sete', 'oito', 'nove', 'dez'];
+      const word = names.indexOf(text.toLocaleLowerCase('pt-BR').normalize('NFD').replace(/\p{M}/gu, ''));
+      const count = /^\d+$/.test(text) ? Number(text) : word === -1 ? 0 : 2 + word;
+      if (count < 2 || count > 20) {
+        say('Informe um número inteiro de 2 a 20. Quantos caminhos saem desta decisão?');
+        return;
+      }
+      const decision = activeDecision();
+      decision.total = count;
+      askBranchName(decision);
+      break;
+    }
+    case 'branchName': {
+      const decision = activeDecision();
+      if (decision.branches.some(branch => branch.name.localeCompare(text, 'pt-BR', {sensitivity:'base'}) === 0)) {
+        note('Esse nome já identifica outro caminho desta decisão. Use um nome diferente.');
+        askBranchName(decision);
+        return;
+      }
+      decision.branches.push({name:text});
+      if (decision.branches.length < decision.total) askBranchName(decision);
+      else askNext();
+      break;
+    }
+    case 'link':
+      if (text === '__cancel') askNext();
+      else followReference({id:text.replace(/^ref:/, ''), label:''});
+      break;
+    case 'imported': {
+      if (text === '__done') {
+        finishInterview();
+        return;
+      }
+      const node = findReference(parseReference(text)?.id || text.replace(/^resume:/, ''));
+      if (!node || node.type === 'end' || edges.some(edge => edge.from === node.id)) {
+        askImportResume();
+        return;
+      }
+      ctx.current = node.id;
+      if (node.type === 'decision') beginDecision(node);
+      else askNext();
+      break;
+    }
+    case 'review':
+      if (text === '__accept' || /^sim$/i.test(text)) markDone();
+      else say('Você pode manter o fluxo assim ou desfazer a última resposta.',
+        [['Manter assim', '__accept'], ['Desfazer última ligação', '__undo']]);
+      break;
+    case 'done':
+      say('O fluxo está concluído. Use Desfazer para voltar à última pergunta.');
+      break;
+  }
+}
+
+log.addEventListener('click', event => {
+  const button = event.target.closest('button[data-answer]');
+  if (button) submit(button.dataset.answer, button.textContent);
+});
 undoBtn.addEventListener('click',undo);redoBtn.addEventListener('click',redo);document.addEventListener('keydown',e=>{if(!(e.ctrlKey||e.metaKey)||e.altKey)return;const k=e.key.toLowerCase();if(k==='z'){e.preventDefault();e.shiftKey?redo():undo()}else if(k==='y'){e.preventDefault();redo()}});$('#importBtn').onclick=()=>importFile.click();importFile.addEventListener('change',()=>onImportFile(importFile.files?.[0]));exportToggle.onclick=()=>{exportMenu.hidden=!exportMenu.hidden;exportToggle.setAttribute('aria-expanded',String(!exportMenu.hidden))};document.addEventListener('click',e=>{if(!e.target.closest('.export-wrap')){exportMenu.hidden=true;exportToggle.setAttribute('aria-expanded','false')}});exportMenu.addEventListener('click',e=>{const b=e.target.closest('[data-export]');if(b)exportAs(b.dataset.export)});$('#form').addEventListener('submit',e=>{e.preventDefault();submit()});$('#tb').onclick=()=>{dir='TD';$('#tb').classList.add('on');$('#lr').classList.remove('on');render()};$('#lr').onclick=()=>{dir='LR';$('#lr').classList.add('on');$('#tb').classList.remove('on');render()};
 say('Qual é o nome deste processo?');
 </script></body></html>
-
